@@ -1,6 +1,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 #include <fcntl.h>
 #include "utermie.h"
 
@@ -21,7 +22,6 @@ set_attr(const unsigned char attr)
 	}
 	putchar('m');
 
-
 	return 0;
 }
 
@@ -36,8 +36,7 @@ center_lin(char *str)
 	/* Get window geometry */
 	ioctl(term, TIOCGWINSZ, &ws);
 	/* Get string size */
-	for (p=str, str_size=0; *p; p++, str_size++)
-		;
+	str_size = strlen(str);
 	if (str_size <= ws.ws_col)
 		/*move cursor to star of the centered line*/
 		printf("%c[%dC", ESCAPE, ((ws.ws_col/2)-(str_size/2)));
@@ -73,6 +72,30 @@ set_bcolor(unsigned const int color)
 	return 0;
 }
 
+void
+ut_goto(unsigned int x, unsigned int y)
+{
+	printf("\e[%d;%dH", x, y);
+}
+
+int
+ut_box(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2,
+	unsigned char attr)
+{
+	int cols, lines;
+	
+	ut_goto(x1, y1);
+	set_attr(attr);
+	
+	for ( lines = (y2-y1); lines; lines--)
+		for (cols = (x2-x1); cols; cols--)
+			putchar(' ');
+	
+	set_attr(UT_RESET);
+
+	return 0;
+}
+
 int
 main(void)
 {
@@ -84,11 +107,22 @@ main(void)
 	/* CLEAR SCREEN */
 	UT_CLEAR_SCREEN();
 
-	set_attr(UT_BOLD | UT_UNDER);
-	printf("terminal %d\n", term);
-	set_attr(UT_BOLD);
-	center_lin("Ieja perraco");
+	ut_box(1,1,80,8, UT_REV);
+	ut_goto(1, 1);
+	set_attr(UT_REV | UT_BOLD);
+	center_lin("< < <  O P E N I N G   M E N U  > > >");
+	printf("   ");
 	set_attr(UT_RESET);
+	printf("---Preliminary Commands---");
+	set_attr(UT_REV);
+	printf(" | ");
+	set_attr(UT_RESET);
+	printf("--File Commands--");
+	set_attr(UT_REV);
+	 printf(" | ");
+	set_attr(UT_RESET);
+	printf("-System Commands- \n");
+	set_attr(UT_REV);
 	center_lin("esto mola un huevaco nen");
 
 	set_fcolor(UT_CYAN);
@@ -103,14 +137,5 @@ main(void)
 	set_attr(UT_RESET);
 	printf("locuuuura\n");
 
-
-	/*
-	printf("%c%s", ESCAPE, "[f");
-
-	for (n=0; n<5; n++)
-		printf("%d\n", n);
-		*/
-
 	return 0;
 }
-

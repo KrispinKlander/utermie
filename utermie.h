@@ -21,3 +21,5 @@ int center_lin(char *str);
 int set_attr(const unsigned char attr);
 int set_fcolor(unsigned const int color);
 int set_bcolor(unsigned const int color);
+int ut_box(unsigned char x1, unsigned char y1, unsigned char x2,
+	unsigned char y2, unsigned char attr);
