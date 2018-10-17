@@ -10,7 +10,7 @@ int term;
 
 /* prints an scape sequence to set a char attribute */
 int
-set_attr(const unsigned char attr)
+ut_set_attr(const unsigned char attr)
 {
 	unsigned char n = 0;
 
@@ -25,9 +25,19 @@ set_attr(const unsigned char attr)
 	return 0;
 }
 
+/* Sets a color */
+int
+ut_set_color(unsigned const char f, unsigned const int color)
+{
+	if (color < UT_NCOLORS)
+		printf("%c[%d%dm", ESCAPE, f, color);
+	else return -1;
+	return 0;
+}
+
 /*prints a centered line str, if line is too long returns nchars */
 int
-center_lin(char *str)
+ut_center_lin(char *str)
 {
 	struct winsize ws;
 	unsigned int str_size;
@@ -51,6 +61,7 @@ center_lin(char *str)
 }
 
 /* Sets foreground color */
+/*
 int
 set_fcolor(unsigned const int color)
 {
@@ -59,9 +70,10 @@ set_fcolor(unsigned const int color)
 	else return -1;
 
 	return 0;
-}
+}*/
 
 /* Set background color */
+/*
 int
 set_bcolor(unsigned const int color)
 {
@@ -71,6 +83,7 @@ set_bcolor(unsigned const int color)
 
 	return 0;
 }
+*/
 
 void
 ut_goto(unsigned int x, unsigned int y)
@@ -85,13 +98,13 @@ ut_box(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2,
 	int cols, lines;
 	
 	ut_goto(x1, y1);
-	set_attr(attr);
+	ut_set_attr(attr);
 	
 	for ( lines = (y2-y1); lines; lines--)
 		for (cols = (x2-x1); cols; cols--)
 			putchar(' ');
 	
-	set_attr(UT_RESET);
+	ut_set_attr(UT_RESET);
 
 	return 0;
 }
@@ -102,39 +115,38 @@ main(void)
 	struct winsize ws;
 	int n;
 
-	/* Setup */
+	/* Setup  term */
 	term = open("/dev/tty", O_RDONLY); 
-	/* CLEAR SCREEN */
 	UT_CLEAR_SCREEN();
 
 	ut_box(1,1,80,8, UT_REV);
 	ut_goto(1, 1);
-	set_attr(UT_REV | UT_BOLD);
-	center_lin("< < <  O P E N I N G   M E N U  > > >");
+	ut_set_attr(UT_REV | UT_BOLD);
+	ut_center_lin("< < <  O P E N I N G   M E N U  > > >");
 	printf("   ");
-	set_attr(UT_RESET);
+	ut_set_attr(UT_RESET);
 	printf("---Preliminary Commands---");
-	set_attr(UT_REV);
+	ut_set_attr(UT_REV);
 	printf(" | ");
-	set_attr(UT_RESET);
+	ut_set_attr(UT_RESET);
 	printf("--File Commands--");
-	set_attr(UT_REV);
-	 printf(" | ");
-	set_attr(UT_RESET);
+	ut_set_attr(UT_REV);
+	printf(" | ");
+	ut_set_attr(UT_RESET);
 	printf("-System Commands- \n");
-	set_attr(UT_REV);
-	center_lin("esto mola un huevaco nen");
+	ut_set_attr(UT_REV);
+	ut_center_lin("esto mola un huevaco nen");
 
-	set_fcolor(UT_CYAN);
+	ut_set_fcolor(UT_CYAN);
 	puts("CYAN");
-	set_fcolor(UT_RED);
+	ut_set_fcolor(UT_RED);
 	puts("RED");
-	set_fcolor(UT_WHITE);
+	ut_set_fcolor(UT_WHITE);
 	puts("WHITE");
-	set_fcolor(UT_BLUE);
-	set_bcolor(UT_YELLOW);
+	ut_set_fcolor(UT_BLUE);
+	ut_set_bcolor(UT_YELLOW);
 	printf("Hola que ase\n");
-	set_attr(UT_RESET);
+	ut_set_attr(UT_RESET);
 	printf("locuuuura\n");
 
 	return 0;
