@@ -1,3 +1,5 @@
+/* utermie.h description */
+
 #define	ESCAPE              27
 #define UT_CLEAR_SCREEN()   printf("\e[1;1H\e[2J")
 
