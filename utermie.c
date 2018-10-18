@@ -60,31 +60,6 @@ ut_center_lin(char *str)
 	return 0;
 }
 
-/* Sets foreground color */
-/*
-int
-set_fcolor(unsigned const int color)
-{
-	if (color < UT_NCOLORS)
-		printf("%c[3%dm", ESCAPE, color);
-	else return -1;
-
-	return 0;
-}*/
-
-/* Set background color */
-/*
-int
-set_bcolor(unsigned const int color)
-{
-	if (color < UT_NCOLORS)
-		printf("%c[4%dm", ESCAPE, color);
-	else return -1;
-
-	return 0;
-}
-*/
-
 void
 ut_goto(unsigned int x, unsigned int y)
 {
