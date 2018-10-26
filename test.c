@@ -1,3 +1,4 @@
+/* test file for utermie library development */
 #include <stdio.h>
 #include "utermie.h"
 
