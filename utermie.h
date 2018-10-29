@@ -28,5 +28,6 @@ int ut_set_attr(const unsigned char attr);
 //int set_fcolor(unsigned const int color);
 //int set_bcolor(unsigned const int color);
 int ut_set_color(unsigned const char f, unsigned const int color);
+void ut_goto(unsigned int x, unsigned int y);
 int ut_box(unsigned char x1, unsigned char y1, unsigned char x2,
 	unsigned char y2, unsigned char attr);
