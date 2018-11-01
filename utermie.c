@@ -1,4 +1,3 @@
-#include <sys/ioctl.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,7 +5,10 @@
 #include "utermie.h"
 
 static const unsigned char attributes[UT_NATTR] = {1, 2, 4, 5, 7, 0};
+
+/* global variables */
 int term;
+struct winsize ws;
 
 /* prints an scape sequence to set a char attribute */
 int
@@ -60,6 +62,19 @@ ut_center_lin(char *str)
 	return 0;
 }
 
+/* this should be called at the beginning, pointing to /dev/tty */
+int
+ut_get_term(char *path)
+{
+	return term = open(path, O_RDWR);
+}
+
+void
+ut_winsize(void)
+{
+	ioctl(term, TIOCGWINSZ, &ws);
+}
+	
 /* Sets foreground color */
 /*
 int
