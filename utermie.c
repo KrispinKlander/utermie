@@ -103,7 +103,7 @@ set_bcolor(unsigned const int color)
 void
 ut_goto(unsigned int x, unsigned int y)
 {
-	printf("\e[%d;%dH", x, y);
+	printf("\e[%d;%dH", y, x);
 }
 
 int
@@ -122,4 +122,10 @@ ut_box(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2,
 	ut_set_attr(UT_RESET);
 
 	return 0;
+}
+
+int
+ut_move_cursor(int n, int dir)
+{
+	printf("\e[%d%c", n, ('A'+dir));
 }

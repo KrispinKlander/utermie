@@ -3,6 +3,9 @@ CFLAGS=-I .
 
 all: test
 
+run: test
+	./test
+
 test: test.o utermie.o
 	$(CC) -o test test.o utermie.o
 
